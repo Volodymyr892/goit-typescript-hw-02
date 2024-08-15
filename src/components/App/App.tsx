@@ -15,7 +15,7 @@ import css from './App.module.css'
 export default function App() {
     const [articles, setArticles] = useState<ImageResult[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<boolean>(false);
+    const [error, setError] = useState<string| null>(null);
     const [page, setPage] = useState<number>(1);
     const [topic, setTopic] = useState<string>("");
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -46,14 +46,18 @@ export default function App() {
 
             async function getArticles(){
                 try {
-                    setError(false);
+                    setError(null);
                     setLoading(true);
                     const data = await fetchArticlesWithTopic(topic, page);
                     setArticles(prevArticles => {
                         return[...prevArticles, ...data]
                     })
                 } catch (error) {
-                    setError(true);
+                        if (error instanceof Error) {
+                            setError(error.message); // Встановлюємо текст помилки
+                        } else {
+                            setError("An unexpected error occurred"); // Якщо це не стандартна помилка, встановлюємо повідомлення за замовчуванням
+                        }
                 }finally{
                     setLoading(false);
                 }
