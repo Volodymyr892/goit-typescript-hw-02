@@ -2,7 +2,7 @@ import axios from "axios"
 
 axios.defaults.baseURL = "https://api.unsplash.com";
 
-interface ImageResult {
+export interface ImageResult {
     id: string;
     description: string | null
     likes: number;

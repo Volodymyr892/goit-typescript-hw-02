@@ -5,6 +5,7 @@ import ErrorMessage from "../ErrorMessage/ErrorMessage"
 import LoaderMorebtn from "../LoaderMoreBtn/LoaderMoreBtn"
 import ImageModal from "../ImageModal/ImageModal"
 import fetchArticlesWithTopic from "../../articles-api"
+import { ImageResult } from "../../articles-api"
 
 import { useState, useEffect} from "react"
 import css from './App.module.css'
@@ -12,15 +13,15 @@ import css from './App.module.css'
 
 
 export default function App() {
-    const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-    const [page, setPage] = useState(1);
-    const [topic, setTopic] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState(null);
+    const [articles, setArticles] = useState<ImageResult[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
+    const [page, setPage] = useState<number>(1);
+    const [topic, setTopic] = useState<string>("");
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [modalData, setModalData] = useState<ImageResult | null>(null);
     
-    const handleSearch = async(newTopic)=>{
+    const handleSearch = async(newTopic: string)=>{
             setArticles([]);
             setPage(1)
             setTopic(newTopic) 
@@ -28,7 +29,7 @@ export default function App() {
         const handleLoadMore = ()=>{
             setPage(page+1);
         }
-        const handleImageClick =(data)=>{
+        const handleImageClick =(data: ImageResult)=>{
            setModalData(data);
            setIsModalOpen(true);
         }
