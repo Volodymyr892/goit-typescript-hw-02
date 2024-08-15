@@ -1,10 +1,17 @@
 import toast, { Toaster } from 'react-hot-toast';
 import css from './SearchBar.module.css'
-export default function SearchBar({onSearch}) {
-    const handleSubmit = (evt)=> {
+import { FormEvent, FC } from 'react';
+
+interface SearchBarProps {
+  onSearch: (topic: string) => void;
+}
+
+const SearchBar: FC<SearchBarProps> = ({ onSearch }) =>  {
+    const handleSubmit = (evt: FormEvent<HTMLFormElement>): void => {
         evt.preventDefault();
-        const form = evt.target;
-        const topic = form.elements.topic.value;
+        const form = evt.target as HTMLFormElement;
+        const topicInput = form.elements.namedItem('topic') as HTMLInputElement
+        const topic = topicInput.value;
         if (topic.trim() ===""){
             toast.error('Введіть текст для пошуку зображень');
             return
@@ -12,8 +19,8 @@ export default function SearchBar({onSearch}) {
         onSearch(topic);
         form.reset();
 
-    }
-    return(
+    };
+    return (
 <header className={css.searchBar}>
   <form onSubmit={handleSubmit} className={css.searchForm }>
     <input
@@ -31,3 +38,4 @@ export default function SearchBar({onSearch}) {
 
     )
 }
+export default SearchBar;
